@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 
-const useAppWrite = (fn: any) => {
+const useAppwriteHook = (fn: any) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,4 +26,4 @@ const useAppWrite = (fn: any) => {
   return { data, isLoading, refetch };
 };
 
-export default useAppWrite;
+export default useAppwriteHook;

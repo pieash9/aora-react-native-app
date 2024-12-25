@@ -107,9 +107,21 @@ export const getCurrentUser = async () => {
   }
 };
 
-export const getAllPost = async () => {
+export const getAllPosts = async () => {
   try {
     const posts = await databases.listDocuments(databaseId, videoCollectionId);
+    return posts.documents;
+  } catch (error) {
+    throw new Error(error as any);
+  }
+};
+
+export const getLatestPosts = async () => {
+  try {
+    const posts = await databases.listDocuments(databaseId, videoCollectionId, [
+      Query.orderDesc("$createdAt"),
+      Query.limit(7),
+    ]);
     return posts.documents;
   } catch (error) {
     throw new Error(error as any);

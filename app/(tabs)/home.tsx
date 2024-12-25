@@ -4,8 +4,8 @@ import Trending from "@/components/Trending";
 import VideoCard from "@/components/VideoCard";
 import { images } from "@/constants";
 import { IPost } from "@/interface";
-import { getAllPost } from "@/lib/appwrite";
-import useAppWrite from "@/lib/useAppWrite";
+import { getAllPosts, getLatestPosts } from "@/lib/appwrite";
+import useAppwriteHook from "@/lib/useAppwriteHook";
 import { useState } from "react";
 import {
   View,
@@ -18,7 +18,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = () => {
-  const { data: posts, isLoading, refetch } = useAppWrite(getAllPost);
+  const { data: posts, isLoading, refetch } = useAppwriteHook(getAllPosts);
+  const { data: latestPosts } = useAppwriteHook(getLatestPosts);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
@@ -62,7 +63,7 @@ const Home = () => {
                 Latest Videos
               </Text>
 
-              <Trending posts={[{ id: 1 }, { id: 2 }, { id: 3 }] ?? []} />
+              <Trending posts={latestPosts} />
             </View>
           </View>
         )}
