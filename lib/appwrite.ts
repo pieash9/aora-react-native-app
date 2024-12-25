@@ -110,7 +110,6 @@ export const getCurrentUser = async () => {
 export const getAllPost = async () => {
   try {
     const posts = await databases.listDocuments(databaseId, videoCollectionId);
-
     return posts.documents;
   } catch (error) {
     throw new Error(error as any);

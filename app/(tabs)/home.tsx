@@ -1,9 +1,12 @@
 import EmptyState from "@/components/EmptyState";
 import SearchInput from "@/components/SearchInput";
 import Trending from "@/components/Trending";
+import VideoCard from "@/components/VideoCard";
 import { images } from "@/constants";
+import { IPost } from "@/interface";
 import { getAllPost } from "@/lib/appwrite";
-import { useEffect, useState } from "react";
+import useAppWrite from "@/lib/useAppWrite";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -15,39 +18,22 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = () => {
+  const { data: posts, isLoading, refetch } = useAppWrite(getAllPost);
   const [refreshing, setRefreshing] = useState(false);
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const onRefresh = () => {
-    useEffect(() => {
-      (async () => {
-        setIsLoading(true);
-        try {
-          const response = await getAllPost();
-          setData(response);
-        } catch (error: any) {
-          Alert.alert("Error", error.message);
-        } finally {
-          setIsLoading(false);
-        }
-      })();
-    }, []);
-
+  const onRefresh = async () => {
     setRefreshing(true);
     // recall videos => any new video
+    await refetch();
     setRefreshing(false);
   };
 
-  console.log(data);
   return (
     <SafeAreaView className="flex-1 bg-primary h-full">
       <FlatList
-        data={[{ id: 1 }, { id: 2 }, { id: 3 }]}
+        data={posts as IPost[]}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => (
-          <Text className="text-3xl text-white">{item.id}</Text>
-        )}
+        renderItem={({ item }) => <VideoCard video={item} />}
         ListHeaderComponent={() => (
           <View className="my-6 px-4 space-y-6">
             <View className="justify-between items-start flex-row mb-6">
