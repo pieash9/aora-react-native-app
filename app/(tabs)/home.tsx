@@ -3,6 +3,7 @@ import SearchInput from "@/components/SearchInput";
 import Trending from "@/components/Trending";
 import VideoCard from "@/components/VideoCard";
 import { images } from "@/constants";
+import { useGlobalContext } from "@/context/GlobalProvider";
 import { IPost } from "@/interface";
 import { getAllPosts, getLatestPosts } from "@/lib/appwrite";
 import useAppwriteHook from "@/lib/useAppwriteHook";
@@ -21,6 +22,7 @@ const Home = () => {
   const { data: posts, isLoading, refetch } = useAppwriteHook(getAllPosts);
   const { data: latestPosts } = useAppwriteHook(getLatestPosts);
   const [refreshing, setRefreshing] = useState(false);
+  const { user } = useGlobalContext();
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -43,7 +45,7 @@ const Home = () => {
                   Welcome Back
                 </Text>
                 <Text className="text-2xl font-psemibold text-white">
-                  Md. Pieash Ahmed
+                  {user?.username}
                 </Text>
               </View>
 

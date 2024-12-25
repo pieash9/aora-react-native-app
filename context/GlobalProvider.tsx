@@ -6,20 +6,15 @@ import React, {
   ReactNode,
 } from "react";
 import { getCurrentUser } from "../lib/appwrite";
+import { ICreator } from "@/interface";
 
 // Define the type for the user object. Replace `any` with the actual type from your appwrite setup.
-interface User {
-  id: string; // Example field
-  email: string; // Example field
-  name: string; // Example field
-  // Add other fields based on your appwrite user object
-}
 
 // Define the type for the context value
 interface GlobalContextType {
   isLogged: boolean;
   setIsLogged: React.Dispatch<React.SetStateAction<boolean>>;
-  user: User | null;
+  user: ICreator | null;
   setUser: React.Dispatch<React.SetStateAction<any | null>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -47,7 +42,7 @@ interface GlobalProviderProps {
 // Provider component
 const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
   const [isLogged, setIsLogged] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<ICreator | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
